@@ -15,6 +15,28 @@
   </head>
 
   <body>
+    <nav>
+      <ul>
+      <% if session[:user_id] == nil %>
+          <li>
+            <a href="/user_sign_in">Sign In</a>
+          </li>
+          <li>
+            <a href="/user_sign_up">Sign Up</a>
+          </li>
+       <%else%>
+        <li>
+            <a href="/bookmarks">My Bookmarks</a>
+          </li>
+          <li>
+            <a href="/user_sign_out">Sign Out</a>
+          </li>
+        <%end%>
+        <li>
+          <a href="/">Home</a>
+        </li>
+        </ul>
+        </nav>
     <%= yield %>
   </body>
 </html>

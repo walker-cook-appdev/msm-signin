@@ -1,0 +1,92 @@
+<!-- display only the signed in user's bookmarks-->
+
+
+<div>
+  <div>
+    <h1>
+     <%=@current_user.first_name%>'s bookmarks
+    </h1>
+  </div>
+</div>
+
+<hr>
+
+<div>
+  <div>
+    <h2>
+      Add a new bookmark
+    </h2>
+
+    <form action="/insert_bookmark" method="post">
+      <div>
+        <input value=<%= @current_user.id%> type="hidden" id="user_id_box" name="query_user_id">
+      </div>
+
+      <div>
+        <label for="movie_id_box">
+        Movie
+        </label>
+  
+        <select name="query_movie_id" id="movie_id_box">
+        <% Movie.all.order(:title).each do |movie| %>
+        <option value="<%=movie.id%>"> <%=movie.title%></option>
+        <%end%>
+        </select>
+
+      </div>
+      <button>
+        Bookmark this movie!
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>
+<div>
+  <div>
+    <table border="1">
+      <tr>
+
+        <th>
+          Movie
+        </th>
+
+        <th>
+          Created at
+        </th>
+
+        <th>
+          Updated at
+        </th>
+
+        <th>
+        </th>
+      </tr>
+
+      <% @list_of_bookmarks.each do |a_bookmark| %>
+      <tr>
+
+        <td>
+          <%= Movie.where({:id => a_bookmark.movie_id}).at(0).title %>
+        </td>
+
+        <td>
+          <%= time_ago_in_words(a_bookmark.created_at) %> ago
+        </td>
+        <td>
+          <%= time_ago_in_words(a_bookmark.updated_at) %> ago
+        </td>
+
+        <td>
+
+          <a href="/delete_bookmark/<%= a_bookmark.id %>">
+            Un-bookmark
+          </a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+
+<hr>
